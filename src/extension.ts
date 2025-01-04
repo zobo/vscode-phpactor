@@ -1,4 +1,4 @@
-import { LanguageClient, ServerOptions, LanguageClientOptions, StreamInfo } from 'vscode-languageclient'
+import { LanguageClient, ServerOptions, LanguageClientOptions, StreamInfo } from 'vscode-languageclient/node'
 
 import * as vscode from 'vscode'
 import { join } from 'path'
@@ -22,7 +22,7 @@ interface PhpactorConfig {
     launchServerArgs: string[]
 }
 
-export function activate(context: vscode.ExtensionContext): void {
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
     if (!checkPlatform()) {
         return
     }
@@ -49,7 +49,7 @@ export function activate(context: vscode.ExtensionContext): void {
     if (enable === false) return
 
     languageClient = createClient(config)
-    languageClient.start()
+    await languageClient.start()
 }
 
 export function deactivate(): Promise<void> | undefined {
